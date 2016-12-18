@@ -208,9 +208,9 @@ def selection_choice(tempname='',invalue=1, a=1, b=1, c=1, d='', ml=0):
     sc1 = '<select name=\"'+tempname+'\" >'
     for i1 in range(a1,b1,c1):
         if ( float(i1) == float(invalue*inc_mult) ):
-            sc1 = sc1 + '\n <option value='+str(float(1.0*i1/inc_mult))+' selected>'+str(locale.format(num_fmt,float(1.0*i1/inc_mult),grouping=True))+' '+mt(str(d),ml)+' </option>'
+            sc1 = sc1 + '\n <option value='+str(float(1.0*i1/inc_mult))+' selected>'+str(locale.format(num_fmt,float(1.0*i1/inc_mult),grouping=True))+' '+str(d)+' </option>'
         else:
-            sc1 = sc1 + '\n <option value='+str(float(1.0*i1/inc_mult))+'>'+str(locale.format(num_fmt,float(1.0*i1/inc_mult),grouping=True))+' '+mt(str(d),ml)+' </option>'
+            sc1 = sc1 + '\n <option value='+str(float(1.0*i1/inc_mult))+'>'+str(locale.format(num_fmt,float(1.0*i1/inc_mult),grouping=True))+' '+str(d)+' </option>'
     
     sc1 = sc1 + ' </select>\n'
     return sc1
@@ -221,9 +221,9 @@ def selection_list(tempname='',selected_val=0, inlist=[],ml=0):
     intext = inlist[2]
     for i1 in range(0,len(invalues)):
         if ( float(invalues[i1]) == float(selected_val) ):
-            sc1 = sc1 + '\n <option value='+str(invalues[i1])+' selected>'+str(mt(intext[i1],ml))+' </option>'
+            sc1 = sc1 + '\n <option value='+str(invalues[i1])+' selected>'+str(intext[i1])+' </option>'
         else:
-            sc1 = sc1 + '\n <option value='+str(invalues[i1])+'>'+str(mt(intext[i1],ml))+' </option>'
+            sc1 = sc1 + '\n <option value='+str(invalues[i1])+'>'+str(intext[i1])+' </option>'
     
     sc1 = sc1 + ' </select>\n'
     return sc1
@@ -234,9 +234,9 @@ def selection_list_text(tempname='', selected_val='', inlist=[],ml=0):
     intext = inlist[2]
     for i1 in range(0,len(invalues)):
         if ( str(intext[i1]) == str(selected_val) ):
-            sc1 = sc1 + '\n <option value=\"'+str(intext[i1])+'\" selected>'+str(mt(intext[i1],ml))+' </option>'
+            sc1 = sc1 + '\n <option value=\"'+str(intext[i1])+'\" selected>'+str(intext[i1])+' </option>'
         else:
-            sc1 = sc1 + '\n <option value=\"'+str(intext[i1])+'\">'+str(mt(intext[i1],ml))+' </option>'
+            sc1 = sc1 + '\n <option value=\"'+str(intext[i1])+'\">'+str(intext[i1])+' </option>'
     
     sc1 = sc1 + ' </select>\n'
     return sc1
@@ -252,14 +252,14 @@ def selection_list_mult(tempname='',selected_val=0, inlist=[],ml=0):
         if type(b) is list:
             # if the selected values are in a list then check if the invalue is in the list 
             if a in b or unicode(a) in b:
-                sc1 = sc1 + '\n <option value='+str(invalues[i1])+' selected>'+str(mt(intext[i1],ml))+' </option>'
+                sc1 = sc1 + '\n <option value='+str(invalues[i1])+' selected>'+str(intext[i1])+' </option>'
             else:
-                sc1 = sc1 + '\n <option value='+str(invalues[i1])+'>'+str(mt(intext[i1],ml))+' </option>'         
+                sc1 = sc1 + '\n <option value='+str(invalues[i1])+'>'+str(intext[i1])+' </option>'         
         else:
             if ( float(a) == float(b) ):
-                sc1 = sc1 + '\n <option value='+str(invalues[i1])+' selected>'+str(mt(intext[i1],ml))+' </option>'
+                sc1 = sc1 + '\n <option value='+str(invalues[i1])+' selected>'+str(intext[i1])+' </option>'
             else:
-                sc1 = sc1 + '\n <option value='+str(invalues[i1])+'>'+str(mt(intext[i1],ml))+' </option>'
+                sc1 = sc1 + '\n <option value='+str(invalues[i1])+'>'+str(intext[i1])+' </option>'
     
     sc1 = sc1 + ' </select>\n'
     return sc1
@@ -275,11 +275,11 @@ def create_var_list_table_v2(inlist,ml,str_val,num_cols):
     i=0
     for avar in inlist:
         if i%(num_cols/2)==0: 
-            # a = ' <tr bgcolor=#f5f5f5><td><sm>'+ mt(avar[1],ml) + '</sm></td>'
-            a = '\n <tr><td>'+ mt(avar[1],ml) + '</td>'
+            # a = ' <tr bgcolor=#f5f5f5><td><sm>'+ avar[1] + '</sm></td>'
+            a = '\n <tr><td>'+ avar[1] + '</td>'
             e = '   '
         else:
-            a = '       <td>'+ mt(avar[1],ml) + '</td>'
+            a = '       <td>'+ avar[1] + '</td>'
             e = ' </tr>'
         b = ' <td>'       
         if avar[2][0]=='open':
@@ -287,11 +287,11 @@ def create_var_list_table_v2(inlist,ml,str_val,num_cols):
         elif avar[2][0]=='closed':
             c = '&nbsp;'
         elif avar[2][0]=='sc':
-            c = selection_choice(avar[0],float(str_val[avar[0]]),avar[2][1],avar[2][2],avar[2][3],avar[2][4],ml)
+            c = selection_choice(avar[0],float(str_val[avar[0]]),avar[2][1],avar[2][2],avar[2][3],avar[2][4]
         elif avar[2][0]=='ls':
-            c = selection_list(avar[0],float(str_val[avar[0]]),avar[2],ml)
+            c = selection_list(avar[0],float(str_val[avar[0]]),avar[2]
         elif avar[2][0]=='ls_mult':
-            c = selection_list_mult(avar[0],float(str_val[avar[0]]),avar[2],ml)
+            c = selection_list_mult(avar[0],float(str_val[avar[0]]),avar[2]
         else:
             c = '&nbsp'
         d = ' </td>\n'
@@ -383,4 +383,3 @@ def table_of_variables_v2(numrows,table_to_print,str_val,mlang):
     return temp2
 
 
-    
