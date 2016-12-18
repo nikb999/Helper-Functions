@@ -56,10 +56,8 @@ def sql_open_db(in_db=''):
 
         ver = cur.fetchone()
         
-        ptest( ( "Database version : %s " % ver ))
         return db            
     except:          
-        # ptest(( "Error %d: %s" % (e.args[0],e.args[1]) ))
         return False
 
 def sql_create_table():
@@ -75,7 +73,6 @@ def sql_create_table():
     try:
         cursor.execute("DROP TABLE IF EXISTS FM_MODEL")
     except:
-        ptest("1. Issue with drop table")
         return False
 
     sql = """CREATE TABLE FM_MODELS (
@@ -92,8 +89,6 @@ def sql_create_table():
         db.close()
         return True
     except:
-        # ptest("2. Issue with table creation")
-        # ptest(sql)
         return False
     
 def sql_add_user(u_info):
@@ -104,34 +99,26 @@ def sql_add_user(u_info):
         # prepare a cursor object using cursor() method
         cursor = db.cursor()
     except:
-        # ptest('problem opening DB')
-        # ptest(u_info)
         return False
  
     # Prepare SQL query to INSERT a record into the database.
     sql_1 = 'INSERT INTO FM_USERS(USERNAME, PASSWORD, EMAIL, REGTYPE) VALUES ( '
-    #print '<p>',sql_1
     sql_2 = sql_1 + "'" + u_info[0] + "','" + u_info[1] + "','" + u_info[2] + "','" + u_info[3] + "'"
-    #print '<p>',sql_2
     sql_3 = sql_2 + ' )'
-    #print '<p>',sql_3
 
     sql = sql_3
-    ptest(sql)
     
     try:
         # Execute the SQL command
         cursor.execute(sql)
         # Commit your changes in the database
         db.commit()
-        ptest('1 Done with sql')
         # disconnect from server
         db.close()
         return True
     except:
         # Rollback in case there is any error
         db.rollback()
-        ptest('2 Problem with sql')
         return False
 
 def sql_get_userinfo(u_name):
@@ -146,7 +133,6 @@ def sql_get_userinfo(u_name):
 
     # Prepare SQL query to INSERT a record into the database.
     sql = "SELECT * FROM FM_USERS WHERE USERNAME = '"+u_name+"'"
-    ptest( sql )
     
     try:
         # Execute the SQL command
@@ -180,7 +166,6 @@ def sql_update_password(u_info):
         db.commit()
         # disconnect from server
         db.close()
-        ptest( ("1 Done with "+sql ))
         return True
     except:
         return False
@@ -225,7 +210,6 @@ def sql_get_modelinfo_all(u_name):
     sql = "SELECT * FROM FM_MODELS WHERE USERNAME = '"+u_name+"'"
     sql3 = "SELECT * FROM FM_MODEL WHERE USERNAME = ?"
     args = [u_name]
-    #ptest(sql)
     
     try:
         # Execute the SQL command
@@ -287,7 +271,6 @@ def sql_process_model(m_info):
     # Prepare SQL query to INSERT a record into the database.
     if m_info[0].upper()=="ADD":
         sql_1 = 'INSERT INTO FM_MODEL (USERNAME, MODELNAME, MODELDATA, LASTSAVED, MODELTYPE) VALUES ( '
-        ptest(sql_1)
         sql_2 = sql_1 + "'" + m_info[1] + "','" + m_info[2] + "','" + model_data + "',now()" + ",'" + m_info[4] + "'"
         sql3 = 'INSERT INTO FM_MODEL (USERNAME, MODELNAME, MODELDATA, LASTSAVED, MODELTYPE) VALUES (?,?,?,?,?)'
         args = [m_info[1],m_info[2],model_data,now(),m_info[4]]
@@ -298,7 +281,6 @@ def sql_process_model(m_info):
         sql3 = "DELETE FROM FM_MODEL WHERE (USERNAME = ? AND MODELNAME = ?)"
         args = [m_info[1],m_info[2]]
     else:
-        # sql = "DESCRIBE FM_MODELS"
         sql3 = "SELECT SQLITE_VERSION()"
         args = []
         
@@ -313,7 +295,6 @@ def sql_process_model(m_info):
     except:
         # Rollback in case there is any error
         db.rollback()
-        ptest(("2 Problem with ",sql))
         return False
 
 def sql_get_maxmodels(utype=''):
